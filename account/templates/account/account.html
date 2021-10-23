@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <link rel='stylesheet' href="{% static 'css/login.css' %}">
+    <form class="form-signin" method='POST'>
+        {% csrf_token %}
+
+        <h1 class="h3 mb-3 font-weight-normal">Update Account</h1>
+        <input type="email" name='email' id="inputEmail" class="form-control" placeholder="Email address" value="{{account_form.initial.email}}" required autofocus>
+        <input type="text" name='username' id="inputUsername" class="form-control" placeholder="Username" value="{{account_form.initial.username}}" required>
+
+          {% for field in account_form %}
+              <p>
+                {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                {% endfor %}
+              </p>
+          {% endfor %}
+          {% if account_form.non_field_errors %}
+            <div style="color: red">
+              <p>{{account_form.non_field_errors}}</p>
+            </div>
+              
+          {% endif %}
+        {% if success_message%}
+      <p style='text-align:center; color:darkgreen'>{{success_message}}</p>
+    {% endif %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+    </form>
+
+    <div class='d-flex flex-column'>
+        <a class='m-auto' href="{% url 'password_change'%}">Change password</a>
+    </div>
+
+{% endblock content %}
